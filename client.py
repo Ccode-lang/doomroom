@@ -2,6 +2,7 @@ import socket
 import sys
 from subprocess import Popen, PIPE
 import os
+import json
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(20)
@@ -35,6 +36,13 @@ def main():
             return
         print(coninfo)
         connect(coninfo)
+    elif sys.argv[1] == "list":
+        sock.connect((sys.argv[2], 3425))
+        sock.send("lst".encode())
+        rooms = json.loads(sock.recv(1024).decode())
+        for key in rooms:
+            print(f"{key}: {rooms[key]}")
+
 
 main()
 sock.close()

@@ -1,5 +1,6 @@
 import socket
 import atexit
+import json
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,4 +45,6 @@ while True:
                 clientsock.send("nrd".encode())
             except:
                 print(f"Error sending no room defined to {clientaddr}")
+    elif msg[0] == "lst":
+        clientsock.send(json.dumps(servers).encode())
     clientsock.close()
